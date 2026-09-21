@@ -1,1 +1,39 @@
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;padding:24px;background:#f5f7fb}button{font-size:18px;padding:12px;border-radius:12px}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#f5f7fb;
+margin:0;
+padding:20px;
+}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+button{
+font-size:18px;
+padding:12px 18px;
+border-radius:14px;
+border:0;
+}
+.course{
+background:white;
+padding:16px;
+margin:12px 0;
+border-radius:18px;
+box-shadow:0 3px 10px #ddd;
+}
+.hidden{display:none}
+#modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.35);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.dialog{
+background:white;
+padding:24px;
+border-radius:20px;
+width:85%;
+}

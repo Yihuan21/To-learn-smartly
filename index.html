@@ -1,19 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>To-learn-smartly</title>
-<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
-<h1>To-learn-smartly</h1>
-<p>iPad AI智能课程表</p>
-<button id="aiBtn">测试 AI 通道</button>
-<div id="status">等待</div>
-<script src="config.js"></script>
-<script src="ai.js"></script>
+<header>
+<h1>📚 我的智能课程表</h1>
+<button id="helpBtn">?</button>
+</header>
+
+<main>
+<button id="uploadBtn">上传课程表图片</button>
+<input id="imageInput" type="file" accept="image/*" hidden>
+
+<section id="schedule"></section>
+</main>
+
+<div id="modal" class="hidden">
+<div class="dialog">
+<h2 id="modalTitle"></h2>
+<div id="modalBody"></div>
+<button id="closeModal">关闭</button>
+</div>
+</div>
+
+<script src="modules/storage.js"></script>
+<script src="modules/editor.js"></script>
+<script src="modules/help.js"></script>
+<script src="modules/ai.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
