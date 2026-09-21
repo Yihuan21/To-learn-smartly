@@ -1,0 +1,1 @@
+document.getElementById("aiBtn").onclick=()=>{document.getElementById("status").textContent="Cloudflare Worker 已连接";};

@@ -1,0 +1,1 @@
+const CONFIG={WORKER_URL:"https://schedule-ai-proxy.yihuanchen219.workers.dev"};
