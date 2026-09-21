@@ -1,13 +1,104 @@
-function showModal(title,body){
-modal.classList.remove("hidden");
-modalTitle.textContent=title;
-modalBody.textContent=body;
-}
-closeModal.onclick=()=>modal.classList.add("hidden");
+// modules/help.js
 
-function showHelp(){
-showModal(
-"新手使用方法",
-"上传课程表图片后，系统会自动整理课程。点击课程卡片可以修改内容、时间和颜色。"
-);
+function createHelp(showModal) {
+
+    function showHelp() {
+
+        showModal(
+            "新手使用方法",
+            `
+📚 智能课程表使用说明
+
+━━━━━━━━━━━━━━
+
+1️⃣ 上传课程表图片
+
+点击「上传课程表图片」按钮，
+选择你的课程表截图。
+
+建议：
+• 图片清晰
+• 包含完整星期和时间
+• 避免遮挡
+
+
+━━━━━━━━━━━━━━
+
+2️⃣ 自动整理课程
+
+系统会根据课程表内容整理：
+
+• 课程名称
+• 上课星期
+• 上课时间
+• 课程信息
+
+
+生成智能课程卡片。
+
+
+━━━━━━━━━━━━━━
+
+3️⃣ 修改课程信息
+
+点击课程卡片，可以修改：
+
+✏️ 课程名称
+
+⏰ 上课时间
+
+🎨 卡片颜色
+
+
+修改后会自动保存。
+
+
+━━━━━━━━━━━━━━
+
+4️⃣ 数据保存
+
+课程信息会保存在当前设备。
+
+下次打开网页，
+你的课程不会消失。
+
+
+━━━━━━━━━━━━━━
+
+5️⃣ AI 学习助手
+
+AI 功能可以帮助你：
+
+🤖 分析课程安排
+
+📅 制定学习计划
+
+📖 优化复习时间
+
+
+━━━━━━━━━━━━━━
+
+💡 使用建议
+
+第一次使用时，
+建议先上传完整课程表。
+
+如果识别结果有误，
+可以手动调整课程。
+
+
+祝你学习愉快！ 🌟
+`
+        );
+
+    }
+
+
+    return {
+        showHelp
+    };
+
 }
+
+
+export { createHelp };
