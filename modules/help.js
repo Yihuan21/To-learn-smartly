@@ -1,3 +1,4 @@
+alert("help.js新版加载成功");
 const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modalTitle");
 const modalBody = document.getElementById("modalBody");
