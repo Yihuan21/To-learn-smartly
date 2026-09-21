@@ -59,3 +59,4 @@ function showHelp(){
     );
 
 }
+window.showHelp = showHelp;
