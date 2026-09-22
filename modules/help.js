@@ -115,7 +115,7 @@ function showHelp() {
 window.showModal = showModal;
 window.showHelp = showHelp;
 window.closeHelpModal = closeHelpModal;
-
+window.hideModal = closeHelpModal;
 
 // ==============================
 // 绑定关闭按钮
