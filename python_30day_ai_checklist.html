@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>30天 Python × AI 大学生基础训练</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#687386;--line:#e4e8f0;--accent:#2563eb;--accent2:#dbeafe;--ok:#16a34a;--warn:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.container{max-width:1050px;margin:auto;padding:18px 14px 60px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 8px 30px #17203310}
+h1{margin:0 0 8px;font-size:28px} .subtitle{color:var(--muted);line-height:1.7}
+.progress-wrap{margin-top:18px;background:#eef1f6;border-radius:999px;height:14px;overflow:hidden}
+#bar{height:100%;width:0;background:var(--accent);transition:.25s}
+.progress-text{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfe;text-align:center}
+.stat b{display:block;font-size:20px} .stat span{font-size:12px;color:var(--muted)}
+.controls,.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;font-size:14px;cursor:pointer}
+button:active{transform:translateY(1px)} .primary{background:var(--accent);color:#fff;border-color:var(--accent)!important}
+.filter.active{background:var(--accent2);border-color:#93c5fd;color:#1d4ed8}
+.tip{background:#eff6ff;border:1px solid #bfdbfe;padding:14px 16px;border-radius:14px;line-height:1.7;margin-top:14px}
+.grid{display:grid;gap:14px} .day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.day.done{border-color:#86efac;background:#f0fdf4}
+.day.today{border-color:#60a5fa;box-shadow:0 0 0 2px #dbeafe}
+.day-head{display:flex;gap:12px;align-items:flex-start}
+.day-num{min-width:44px;height:44px;border-radius:12px;background:#eef2ff;color:#3730a3;display:grid;place-items:center;font-weight:800}
+.done .day-num{background:#dcfce7;color:#15803d}
+.title{font-size:17px;font-weight:750;margin-bottom:4px} .source{font-size:13px;color:#2563eb}
+.badge{display:inline-block;font-size:11px;padding:3px 7px;border-radius:999px;background:#fff7ed;color:#9a3412;margin-left:6px}
+.check{margin-left:auto;width:22px;height:22px;accent-color:var(--accent)}
+.section{margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.label{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em} .content{margin-top:5px;line-height:1.65}
+.notes{width:100%;min-height:68px;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;resize:vertical;background:#fbfcfe}
+.small{font-size:12px;color:var(--muted)} .empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border-radius:14px}
+@media(max-width:600px){.container{padding:12px 10px 40px}.hero{padding:18px 15px}h1{font-size:24px}.stats{grid-template-columns:1fr 1fr 1fr}.day{padding:15px}}
+</style>
+</head>
+<body>
+<div class="container">
+<section class="hero">
+<h1>30天 Python × AI 大学生基础训练</h1>
+<p class="subtitle">Think Python 负责“为什么”：编程思维、函数、算法、数据结构和 OOP；Python Crash Course 负责“怎么做”：语法强化、项目、测试、数据/API。最后 5 天桥接 NumPy 与 AI 代码阅读，目标是达到 AI 大学生进入 NumPy → pandas → scikit-learn → PyTorch 前所需的 Python 基础。</p>
+<div class="progress-wrap"><div id="bar"></div></div>
+<div class="progress-text"><span id="progressText">0 / 30 天</span><span id="percent">0%</span></div>
+<div class="stats">
+<div class="stat"><b id="doneCount">0</b><span>已完成</span></div>
+<div class="stat"><b id="remainCount">30</b><span>剩余天数</span></div>
+<div class="stat"><b id="streak">0</b><span>连续打卡</span></div>
+</div>
+<div class="controls">
+<button class="primary" onclick="checkNext()">✓ 打卡下一个</button>
+<button onclick="scrollToday()">定位今日</button>
+<button onclick="markAll(false)">全部清除</button>
+<button onclick="markAll(true)">全部完成</button>
+<button onclick="exportData()">导出进度</button>
+<button onclick="resetAll()">重置</button>
+</div>
+<div class="tip"><b>每日学习规则：</b>建议 1.5–2.5 小时；阅读 ≤40%，编码 ≥50%，复盘 ≥10%。两本书交叉使用：Think Python 解释“为什么”，Python Crash Course 强化“怎么做”。<br><b>最重要：</b>不要只看代码。每天必须有闭卷编码和验收；AI 可以用于解释错误，但不要直接替你完成当天核心任务。</div>
+</section>
+
+<div class="filters">
+<button class="filter active" onclick="filterDays('all',this)">全部</button>
+<button class="filter" onclick="filterDays('todo',this)">未完成</button>
+<button class="filter" onclick="filterDays('done',this)">已完成</button>
+</div>
+<div id="days" class="grid"></div>
+<p class="small">进度和笔记保存在当前浏览器 localStorage。建议每 5–7 天导出一次 JSON 备份。</p>
+</div>
+
+<script>
+const plan = [{"day": 1, "title": "启动：恢复 Python 手感", "source": "Think Python 第1章；PCC 第1章", "topics": "解释器、表达式、值、类型、语句、调试；print；运行 .py 文件。", "task": "写 Hello World、个人信息卡、四则运算、摄氏/华氏转换；独立运行至少 3 个 .py 文件。", "goal": "能解释 expression / value / type / statement，并能独立运行 Python 程序。", "ai": "AI连接：理解以后 AI 代码里的 import、函数调用和数据处理都是 Python 语句的组合。"}, {"day": 2, "title": "变量与简单数据类型", "source": "Think Python 第2章；PCC 第2章", "topics": "赋值、变量、int、float、str、f-string、类型转换、命名。", "task": "制作“学生信息卡”：姓名、年龄、成绩、专业；完成 str→int、int→float、float→int 的转换练习。", "goal": "不看书写出变量、f-string 和 3 种常见类型转换，并能解释转换为什么需要。", "ai": "AI连接：模型参数、样本编号、标签等都离不开清晰的数据类型。"}, {"day": 3, "title": "函数：把代码组织起来", "source": "Think Python 第3章；PCC 第8章", "topics": "def、函数调用、参数、实参、局部变量、函数复用。", "task": "独立写 greet、add、subtract、multiply、divide、square；至少调用每个函数 3 次。", "goal": "能清楚区分 parameter 与 argument，并能把重复代码改成函数。", "ai": "AI连接：训练、预测、评估通常都可以拆成多个职责明确的函数。"}, {"day": 4, "title": "返回值与接口设计", "source": "Think Python 第4、6章；PCC 第8章", "topics": "return、临时变量、函数组合、接口、增量开发。", "task": "写 BMI、成绩等级、三数最大值函数；禁止直接把全部逻辑堆在主程序里。", "goal": "能独立写 max_of_three，不使用 max()；能解释 print 与 return 的区别。", "ai": "AI连接：机器学习代码的每一步都应有清晰输入和输出。"}, {"day": 5, "title": "条件判断与逻辑", "source": "Think Python 第5章；PCC 第5章", "topics": "布尔值、比较运算、and/or/not、if/elif/else、条件执行。", "task": "完成成绩分级、BMI 判断、登录判断、年龄分类、AI 准确率等级判断。", "goal": "完成 20 道 if 判断题，正确率 ≥90%；能自己设计多分支条件。", "ai": "AI连接：阈值判断、分类规则、数据过滤都建立在条件逻辑上。"}, {"day": 6, "title": "循环与输入", "source": "Think Python 第7章；PCC 第7章", "topics": "for、while、range、break、continue、input、无限循环。", "task": "求 1~100 之和、筛偶数、找最大值、猜数字、密码重试。", "goal": "闭卷写出 range、for、while；能解释 break 与 continue 的区别。", "ai": "AI连接：批量处理样本时，本质上是在重复执行同一套计算。"}, {"day": 7, "title": "函数 + 循环综合", "source": "Think Python 第6、7章；PCC 第7、8章", "topics": "循环嵌套函数、累计、计数、搜索、遍历。", "task": "实现 count_even、find_max、calculate_average、search；测试 [12,7,35,8,91,4]。", "goal": "能把“遍历数据→处理→返回结果”完整封装进函数。", "ai": "AI连接：数据预处理经常就是这种批量遍历与转换。"}, {"day": 8, "title": "列表：最重要的容器", "source": "Think Python 第10章；PCC 第3章", "topics": "索引、切片、append、insert、pop、remove、sort、len。", "task": "做一个成绩列表管理器：添加、删除、排序、求平均、找最高分。", "goal": "闭卷完成列表增删改查和遍历；理解索引从 0 开始。", "ai": "AI连接：样本序列、标签序列、批次数据常用列表表达。"}, {"day": 9, "title": "列表遍历与嵌套数据", "source": "PCC 第4章；Think Python 第10章", "topics": "for 遍历、数值列表、嵌套列表、二维数据。", "task": "建立学生成绩二维列表，计算每位学生平均分和各科最高分。", "goal": "能独立遍历二维列表，并解释“列表套列表”对应什么数据结构。", "ai": "AI连接：二维表格与矩阵是进入 NumPy 的重要过渡。"}, {"day": 10, "title": "字典：按键快速查数据", "source": "Think Python 第11章；PCC 第6章", "topics": "key/value、get、keys、values、items、更新与删除。", "task": "制作学生成绩字典管理器：按姓名查询、修改成绩、统计平均分。", "goal": "能解释为什么“按姓名查成绩”更适合 dict 而不是 list。", "ai": "AI连接：配置、标签映射、JSON 数据都大量使用字典。"}, {"day": 11, "title": "字符串与文本处理", "source": "Think Python 第8章；PCC 第2章", "topics": "索引、切片、split、join、replace、strip、大小写、字符串遍历。", "task": "做英文文本分析器：字符数、单词数、空格数、最长/最短单词、词频。", "goal": "能独立组合 5 个字符串方法完成文本处理。", "ai": "AI连接：文本数据进入 NLP/LLM 前通常需要大量字符串处理。"}, {"day": 12, "title": "元组与数据结构选择", "source": "Think Python 第12、13章；PCC 第4章", "topics": "tuple、解包、可变/不可变、list/tuple/dict 的区别。", "task": "完成坐标解包、学生记录解包；针对 8 个场景选择合适的数据结构并说明原因。", "goal": "看到数据需求后，能先选结构再写代码。", "ai": "AI连接：AI 项目效率很大程度取决于数据结构是否合理。"}, {"day": 13, "title": "集合与 Pythonic 写法", "source": "Think Python 第13章；PCC 第4章", "topics": "set、交集、差集、去重、成员判断、列表推导式。", "task": "实现重复数据清理、共同课程查找、集合差异分析；再用列表推导式重写其中 3 个任务。", "goal": "理解 set 的去重/成员判断优势，并能读懂常见列表推导式。", "ai": "AI连接：数据清洗中的去重、集合比较非常常见。"}, {"day": 14, "title": "文件：让程序记住数据", "source": "Think Python 第14章；PCC 第10章", "topics": "open、read、write、with、路径、encoding。", "task": "把 Day 11 文本分析器改为读取 input.txt，并把统计结果写入 output.txt。", "goal": "能独立完成安全的 with open(...) 文件读写。", "ai": "AI连接：数据集、日志、实验结果都需要文件 I/O。"}, {"day": 15, "title": "异常与 traceback", "source": "Think Python 第1、5、14章；PCC 第10章", "topics": "try/except/else/finally、ValueError、TypeError、FileNotFoundError、traceback。", "task": "故意制造至少 10 个错误并逐个修复；记录“错误原因→定位位置→修复方式”。", "goal": "看到 traceback 能先找到出错文件、行号和异常类型。", "ai": "AI连接：训练数据、API、模型运行失败时，读 traceback 是基本生存技能。"}, {"day": 16, "title": "模块化：不要把代码塞进一个文件", "source": "Think Python 第3、4章；PCC 第8章", "topics": "import、from...import、模块职责、main 函数。", "task": "把文本分析器拆成 main.py、text_utils.py、statistics.py。", "goal": "能解释模块化的意义，并能独立 import 自己写的模块。", "ai": "AI连接：真实 AI 项目通常由数据、模型、训练、评估等多个模块组成。"}, {"day": 17, "title": "类与对象", "source": "Think Python 第15章；PCC 第9章", "topics": "class、object、attribute、instance、__init__、self。", "task": "实现 Student 类：姓名、学号、成绩；创建至少 3 个对象。", "goal": "能解释 class、object、attribute、self 的关系。", "ai": "AI连接：很多 AI 框架把数据集、模型、训练器设计成类。"}, {"day": 18, "title": "方法与对象状态", "source": "Think Python 第16、17章；PCC 第9章", "topics": "方法、self、对象状态、类设计。", "task": "实现 BankAccount：deposit、withdraw、balance、history，并处理非法取款。", "goal": "能独立写带状态变化的类，并理解实例方法为什么需要 self。", "ai": "AI连接：模型对象会保存参数、状态和行为，OOP 是读懂框架代码的基础。"}, {"day": 19, "title": "继承与覆盖", "source": "Think Python 第18章；PCC 第9章", "topics": "父类、子类、继承、方法覆盖。", "task": "实现 Animal/Dog/Cat；再设计 Model/ClassificationModel/RegressionModel 的简单结构。", "goal": "能解释继承解决什么问题，并能写一个方法覆盖示例。", "ai": "AI连接：AI 框架中的模型、数据集和任务类型经常使用面向对象设计。"}, {"day": 20, "title": "Python 综合实战", "source": "Think Python 第1–18章；PCC 第1–11章", "topics": "变量、条件、循环、容器、函数、文件、异常、类。", "task": "独立完成 150 行左右“学生成绩管理系统”：增删改查、统计、文件保存、异常处理。禁止直接让 AI 生成完整代码。", "goal": "程序可运行；至少使用 3 个函数、2 种容器、文件 I/O 和异常处理。", "ai": "AI连接：这是从“会语法”到“能写 AI 前置工具”的分界线。"}, {"day": 21, "title": "测试：证明你的代码没那么脆", "source": "PCC 第11章", "topics": "测试、断言、单元测试、测试用例、边界条件。", "task": "为 Day 20 项目写至少 10 个测试：正常值、空值、极端值、错误输入、文件不存在等。", "goal": "能写基本测试并知道为什么要测边界条件。", "ai": "AI连接：AI 实验代码如果没有测试，很难判断是模型问题还是数据/程序问题。"}, {"day": 22, "title": "综合项目：Todo CLI", "source": "综合：PCC 第1–11章", "topics": "需求分析→数据结构→函数→文件→异常→测试。", "task": "独立实现 Todo 命令行程序：添加、删除、完成、查看、保存、加载。", "goal": "不看教程完成核心功能；至少 5 个测试用例。", "ai": "AI连接：训练脚本、实验管理工具本质上也常是类似的命令行程序。"}, {"day": 23, "title": "算法思维：从数据到结果", "source": "Think Python 第5、6、7、9、10、13章", "topics": "最大值、频率统计、去重、搜索、排序、二分查找思想、复杂度直觉。", "task": "针对一组数据分别设计：找最大值、统计频率、去重、搜索；先写思路再编码。", "goal": "形成“输入→数据结构→处理→输出”的算法思维，而不是只背语法。", "ai": "AI连接：机器学习本质上也是对数据执行一套可重复的计算流程。"}, {"day": 24, "title": "数据与 API", "source": "PCC 第16、17章", "topics": "JSON、HTTP、请求/响应、API、嵌套 dict/list、解析数据。", "task": "调用一个公开 API：获取 JSON→解析为 dict/list→提取指定字段→整理成表格输出。", "goal": "能看懂 JSON 嵌套结构并写代码提取目标字段。", "ai": "AI连接：真实 AI 应用的数据常来自 API、数据库、文件或数据集。"}, {"day": 25, "title": "生成数据与可视化", "source": "PCC 第15章", "topics": "生成数据、数值序列、Matplotlib、折线图/散点图/柱状图。", "task": "生成一组实验数据并绘制至少 2 种图；给图添加标题、坐标轴标签。", "goal": "能独立完成“生成数据→计算→可视化”的完整流程。", "ai": "AI连接：训练前先看数据分布，是机器学习实验的重要习惯。"}, {"day": 26, "title": "NumPy 入门：进入 AI Python 栈", "source": "AI 衔接：NumPy 基础", "topics": "ndarray、shape、dtype、ndim、size、索引、切片、1D/2D/3D 数组。", "task": "创建 1D、2D、3D 数组；分别查看 shape、dtype、ndim、size；比较 list 与 ndarray。", "goal": "能解释 NumPy 数组和 Python list 的核心区别。", "ai": "AI连接：矩阵、批次、特征和张量是 AI 计算的基本数据形态。"}, {"day": 27, "title": "NumPy 运算：向量化与矩阵", "source": "AI 衔接：NumPy 运算", "topics": "向量化、逐元素运算、reshape、axis、broadcasting、矩阵乘法、mean/max/min/std。", "task": "完成向量加减乘、reshape、矩阵乘法、按 axis 求统计量；用 NumPy 重写一个之前的统计任务。", "goal": "能理解为什么 AI 代码不靠 Python for 循环逐元素计算。", "ai": "AI连接：神经网络中的权重、输入、激活等大量计算都建立在数组/张量运算上。"}, {"day": 28, "title": "读懂一段 AI Python 代码", "source": "综合：Python 基础 + NumPy", "topics": "import、数据读取、预处理、模型、训练、预测、评估、函数与类。", "task": "找一段 100–200 行的 AI 示例代码：不运行先画数据流图，标出变量、函数、类、数组和数据流；再运行验证。", "goal": "能说清楚“数据从哪里来→经过什么处理→进入模型→得到什么结果”。", "ai": "AI连接：重点不是今天训练模型，而是获得读懂 AI 项目源码的能力。"}, {"day": 29, "title": "最终项目：实验数据分析器", "source": "综合：Python + NumPy + Matplotlib", "topics": "文件、函数、容器、异常、模块、NumPy、统计、可视化。", "task": "读取 CSV/TXT 实验数据；输出数量、均值、最大值、最小值、标准差、异常值；绘制至少 1 张图。", "goal": "100–300 行可运行项目；至少 3 个函数、2 种数据结构、文件 I/O、异常处理、NumPy、可视化。", "ai": "AI连接：这是进入数据科学/机器学习前最重要的一次 Python 综合练习。"}, {"day": 30, "title": "结业考试：达到 AI 大学生 Python 基础线", "source": "综合考核", "topics": "变量/类型、if、循环、list/dict/set/tuple、函数、文件、异常、OOP、模块、测试、调试、NumPy。", "task": "闭卷 90 分钟：完成综合编程题；再回答 10 个概念题；最后整理 30 天错题和不会的知识点。", "goal": "核心知识达到约 80% 可闭卷独立完成；其余部分能在提示下完成。能开始 NumPy→pandas→scikit-learn→PyTorch。", "ai": "AI连接：结业标准不是“背完两本书”，而是已经能读、写、调试 AI 项目前置 Python 代码。"}];
+const KEY = "python-ai-30day-v1";
+let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+let filter = "all";
+
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); update(); }
+function update() {
+  const n = plan.filter((_,i)=>!!state[i]).length;
+  document.getElementById("bar").style.width = (n/30*100)+"%";
+  document.getElementById("progressText").textContent = n+" / 30 天";
+  document.getElementById("percent").textContent = Math.round(n/30*100)+"%";
+  document.getElementById("doneCount").textContent = n;
+  document.getElementById("remainCount").textContent = 30-n;
+  let streak=0;
+  for(let i=0;i<30;i++) { if(state[i]) streak++; else break; }
+  document.getElementById("streak").textContent = streak;
+}
+function toggle(i) { state[i]=!state[i]; save(); render(); }
+function note(i,v) { state["n"+i]=v; save(); }
+function filterDays(f,b) {
+  filter=f;
+  document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  render();
+}
+function render() {
+  const box=document.getElementById("days"); box.innerHTML="";
+  const firstTodo=plan.findIndex((_,i)=>!state[i]);
+  plan.forEach((x,i)=>{
+    const done=!!state[i];
+    if(filter==="todo"&&done) return;
+    if(filter==="done"&&!done) return;
+    const el=document.createElement("article");
+    el.className="day"+(done?" done":"")+(i===firstTodo?" today":"");
+    el.id="day-"+x.day;
+    el.innerHTML=`
+      <div class="day-head">
+        <div class="day-num">${x.day}</div>
+        <div style="flex:1">
+          <div class="title">${x.title} ${i===firstTodo&&!done?'<span class="badge">当前任务</span>':''}</div>
+          <div class="source">${x.source}</div>
+        </div>
+        <input class="check" type="checkbox" ${done?"checked":""} aria-label="完成第 ${x.day} 天">
+      </div>
+      <div class="section"><div class="label">本章 / 今日重点</div><div class="content">${x.topics}</div></div>
+      <div class="section"><div class="label">必须完成</div><div class="content">${x.task}</div></div>
+      <div class="section"><div class="label">AI 连接</div><div class="content">${x.ai}</div></div>
+      <div class="section"><div class="label">今日验收</div><div class="content">${x.goal}</div></div>
+      <div class="section"><div class="label">我的笔记</div>
+        <textarea class="notes" placeholder="记录今天卡住的地方、错误、不会的语法……">${state["n"+i]||""}</textarea>
+      </div>`;
+    el.querySelector(".check").onchange=()=>toggle(i);
+    el.querySelector("textarea").oninput=e=>note(i,e.target.value);
+    box.appendChild(el);
+  });
+  if(!box.children.length) box.innerHTML='<div class="empty">当前筛选没有任务。</div>';
+  update();
+}
+function checkNext() {
+  const i=plan.findIndex((_,i)=>!state[i]);
+  if(i>=0) { state[i]=true; save(); render(); setTimeout(()=>document.getElementById("day-"+(i+1))?.scrollIntoView({behavior:"smooth",block:"center"}),50); }
+}
+function scrollToday() {
+  const i=plan.findIndex((_,i)=>!state[i]);
+  document.getElementById("day-"+(i>=0?i+1:30))?.scrollIntoView({behavior:"smooth",block:"center"});
+}
+function markAll(v) { plan.forEach((_,i)=>state[i]=v); save(); render(); }
+function resetAll() {
+  if(confirm("确定清空30天打卡和全部笔记吗？")) { state={}; save(); render(); }
+}
+function exportData() {
+  const blob=new Blob([JSON.stringify({plan:"Python × AI 30 days",exported:new Date().toISOString(),state},null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="python-ai-30day-checkin.json"; a.click(); URL.revokeObjectURL(a.href);
+}
+render();
+</script>
+</body>
+</html>
