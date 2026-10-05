@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>热学考试重点 · 交互式复习</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#18202a;--muted:#667085;--line:#e5e7eb;--accent:#4f46e5;--accent2:#eef2ff;--good:#16803c;--warn:#a15c00;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+header{background:linear-gradient(135deg,#1e293b,#334155);color:#fff;padding:28px 20px 24px}
+.wrap{max-width:1100px;margin:auto}.eyebrow{font-size:13px;opacity:.8}.hero{display:flex;gap:18px;align-items:flex-end;justify-content:space-between}.hero h1{font-size:30px;margin:4px 0}.hero p{margin:0;color:#dbe3ef}
+.progressbox{min-width:220px}.bar{height:9px;background:#ffffff30;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#fff;border-radius:99px;transition:.25s}
+nav{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.navin{display:flex;gap:8px;padding:10px 16px;overflow:auto}.navin button,.filter button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-weight:600;color:#475467}.navin button.active,.filter button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+main{padding:18px 16px 50px}.toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:16px}.search{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:#fff}.filter{display:flex;gap:7px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 2px 10px #10182808}.card.hidden{display:none}.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 8px;background:var(--accent2);color:#3730a3}.stars{font-size:13px;color:#a15c00;margin-left:6px}.card h3{margin:8px 0 6px;font-size:19px}.card p{margin:7px 0;color:#475467}.formula{margin:11px 0;padding:12px;border-radius:10px;background:#f8fafc;border-left:3px solid var(--accent);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;overflow:auto}.point{margin-top:10px;padding:10px 12px;background:#f8fafc;border-radius:10px}.point b{display:block;margin-bottom:3px}
+section{scroll-margin-top:70px}.sectionTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 12px}.sectionTitle h2{margin:0;font-size:22px}.pill{font-size:12px;color:var(--muted)}
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:stretch}.node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;font-weight:700}.arrow{text-align:center;color:var(--accent);font-size:22px;align-self:center}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}summary{cursor:pointer;font-weight:700}
+.quiz{margin-top:10px}.q{padding:14px 0;border-top:1px solid var(--line)}.q:first-child{border-top:0}.q button{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;padding:10px 12px;border-radius:10px;margin:7px 0;font-size:15px}.q button.correct{border-color:#86efac;background:#f0fdf4}.q button.wrong{border-color:#fca5a5;background:#fef2f2}.explain{display:none;color:#475467;font-size:14px;padding:4px 4px 8px}.score{font-size:18px;font-weight:800;margin-top:12px}
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.check{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px}.check label{display:flex;gap:9px;align-items:flex-start}.check input{width:20px;height:20px;margin-top:2px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:25px}
+@media(max-width:700px){.hero{display:block}.progressbox{margin-top:16px}.toolbar{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.chain{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.checklist{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">基于《热学部分PPT》· Chapter 1–2</div>
+<div class="hero"><div><h1>热学考试重点 · 交互式复习</h1><p>重点概念 → 典型题 → 解题识别 → 举一反三 → 自测</p></div>
+<div class="progressbox"><div id="progressText">复习进度 0%</div><div class="bar"><i id="progressBar"></i></div></div></div>
+</div></header>
+<nav><div class="wrap navin">
+<button class="active" data-target="重点">重点</button><button data-target="公式链">公式链</button><button data-target="题型">题型</button><button data-target="自测">自测</button><button data-target="清单">考前清单</button>
+</div></nav>
+<main class="wrap">
+<section id="重点">
+<div class="sectionTitle"><h2>一、考试重点</h2><span class="pill">★★★★★ = 优先掌握</span></div>
+<div class="toolbar"><input id="search" class="search" placeholder="搜索：拉格朗日、Maxwell、热容、随机游走……"><div class="filter" id="filters">
+<button class="active" data-level="all">全部</button><button data-level="5">★★★★★</button><button data-level="4">★★★★</button><button data-level="3">★★★</button>
+</div></div>
+<div class="grid" id="cards">
+<article class="card" data-level="5" data-key="理想气体 状态方程"><span class="tag">★★★★★ 基础计算</span><h3>1. 理想气体状态方程</h3><p><b>必须会：</b>状态量之间的关系、物质的量与粒子数的转换、状态变化的比例关系。</p><div class="formula">pV = νRT = NkBT，R = NA kB</div><div class="point"><b>识题信号</b>题目给 p、V、T、ν、N 中若干量，求另一量或比较两状态。</div><div class="point"><b>举一反三</b>同一气体：ν 不变；同温：pV 不变；同压：V/T 不变；同体积：p/T 不变。</div></article>
+<article class="card" data-level="5" data-key="微观 压强 分子运动"><span class="tag">★★★★★ 推导</span><h3>2. 理想气体压强的微观推导</h3><p>从分子碰撞器壁的动量变化出发，得到宏观压强与分子平均平方速率的联系。</p><div class="formula">p = (1/3)nm⟨v²⟩，pV = (1/3)Nm⟨v²⟩</div><div class="formula">(1/2)m⟨v²⟩ = (3/2)kBT</div><div class="point"><b>核心桥梁</b>宏观温度 T ↔ 微观平均动能。</div><div class="point"><b>变式</b>若给质量、粒子数、密度或均方根速率，先判断能否由 p=(1/3)nm⟨v²⟩直接求解。</div></article>
+<article class="card" data-level="5" data-key="最概然分布 拉格朗日 乘数"><span class="tag">★★★★★ 核心推导</span><h3>3. 最概然分布 + 拉格朗日乘数</h3><p>这是第二章最值得完整掌握的一条推导链：等概率原理 → 微观状态数 → 最概然分布 → 指数形式。</p><div class="formula">Σ aₗ = N，Σ aₗEₗ = E</div><div class="formula">L = lnΩ − αΣaₗ − βΣaₗEₗ</div><div class="formula">aₗ ∝ exp(−βEₗ)</div><div class="point"><b>识题信号</b>“在总粒子数、总能量等约束下，使状态数最大/概率最大”。</div><div class="point"><b>举一反三</b>增加动量、角动量等守恒约束，就增加对应的拉格朗日乘子项。</div></article>
+<article class="card" data-level="5" data-key="Maxwell 分布 速率"><span class="tag">★★★★★ 分布题</span><h3>4. Maxwell 速率分布</h3><p>重点是看懂速度分布与速率分布的区别，以及三种特征速率。</p><div class="formula">f(v) ∝ v² exp[−mv²/(2kBT)]</div><div class="formula">vₚ = √(2kBT/m)， v̄ = √(8kBT/πm)， vᵣₘₛ = √(3kBT/m)</div><div class="point"><b>必背关系</b>vₚ &lt; v̄ &lt; vᵣₘₛ。</div><div class="point"><b>举一反三</b>T 升高 → 分布变宽、峰值向右；m 增大 → 同温下典型速率降低。</div></article>
+<article class="card" data-level="5" data-key="Boltzmann 分布 玻尔兹曼"><span class="tag">★★★★★ 分布</span><h3>5. Boltzmann 分布</h3><p>能量越高，占据概率越低；分布由能级差与 kBT 的比值控制。</p><div class="formula">n(r) ∝ exp[−U(r)/(kBT)]</div><div class="point"><b>经典变式</b>重力场 U=mgh → n(h)∝e^(−mgh/kBT)。</div><div class="point"><b>再变式</b>谐振势 U=(1/2)kx² → 空间分布呈高斯型。</div></article>
+<article class="card" data-level="5" data-key="配分函数 partition function"><span class="tag">★★★★★ 工具</span><h3>6. 配分函数 Z</h3><p>把所有能级按 Boltzmann 权重加起来，是连接微观能级与宏观热力学量的重要工具。</p><div class="formula">Z = Σₗ exp(−βEₗ)</div><div class="point"><b>识题信号</b>给离散能级、要求求平均能量或热力学量时，优先考虑 Z。</div></article>
+<article class="card" data-level="5" data-key="能量均分 热容 内能"><span class="tag">★★★★★ 综合</span><h3>7. 能量均分 → 内能 → 热容</h3><p>每个独立二次型自由度平均贡献 1/2 kBT。</p><div class="formula">⟨E⟩ = (f/2)kBT；U=(f/2)NkBT</div><div class="formula">Cᵥ,m=(f/2)R；Cₚ=Cᵥ+R</div><div class="point"><b>常考</b>单原子 f=3；刚性双原子 f=5。</div><div class="point"><b>举一反三</b>振动一个完整谐振模式 = 动能 1/2 kBT + 势能 1/2 kBT = kBT。</div></article>
+<article class="card" data-level="5" data-key="混合气体 热容"><span class="tag">★★★★★ 计算</span><h3>8. 混合气体热容</h3><p>先分别求各组分物质的量，再把各组分热容相加。</p><div class="formula">Cᵥ,total = Σ nᵢ Cᵥ,m,ᵢ</div><div class="point"><b>易错</b>质量不是物质的量；必须先用 nᵢ=mᵢ/Mᵢ 转换。</div></article>
+<article class="card" data-level="4" data-key="范德瓦耳斯 临界点"><span class="tag">★★★★ 状态方程</span><h3>9. van der Waals 方程与临界点</h3><div class="formula">(p+a/Vₘ²)(Vₘ−b)=RT</div><p>a 修正分子间吸引，b 修正分子有限体积。</p><div class="formula">(∂p/∂Vₘ)T=0；(∂²p/∂Vₘ²)T=0</div><div class="point"><b>识题信号</b>“临界点/临界温度/等温线拐点”就想到两个导数条件。</div></article>
+<article class="card" data-level="4" data-key="热膨胀 压缩系数"><span class="tag">★★★★ 偏导</span><h3>10. 热学系数</h3><div class="formula">α=(1/V)(∂V/∂T)ₚ；β=(1/p)(∂p/∂T)ᵥ；κ=−(1/V)(∂V/∂p)ₜ</div><div class="point"><b>举一反三</b>看到“定压膨胀、定容升压、等温压缩”分别联想到 α、β、κ。</div></article>
+<article class="card" data-level="4" data-key="随机游走 均方位移"><span class="tag">★★★★ 概率</span><h3>11. 随机游走</h3><div class="formula">⟨x⟩=0；⟨x²⟩∝N；xᵣₘₛ∝√N</div><div class="point"><b>高频概念陷阱</b>⟨x⟩=0 不等于每次运动都回到原点；它表示大量实现的平均位移为零。</div></article>
+<article class="card" data-level="4" data-key="二项分布 高斯 泊松"><span class="tag">★★★★ 分布极限</span><h3>12. 二项分布 → 高斯 / 泊松</h3><div class="formula">P(n)=C(N,n)pⁿ(1−p)ᴺ⁻ⁿ</div><div class="formula">⟨n⟩=Np；σ²=Np(1−p)</div><div class="point"><b>高斯</b>N 很大且 p 不极端时。</div><div class="point"><b>泊松</b>N→∞、p→0、Np=λ 固定：P(n)=λⁿe⁻λ/n!。</div></article>
+<article class="card" data-level="4" data-key="布朗运动 Einstein 扩散"><span class="tag">★★★★ 物理图像</span><h3>13. Brownian motion / 扩散</h3><div class="formula">D=kBT/(6πηa)</div><div class="point">T 越高 → D 越大；黏度 η 越大或粒子半径 a 越大 → D 越小。</div></article>
+<article class="card" data-level="3" data-key="微观状态 宏观状态 等概率"><span class="tag">★★★ 概念</span><h3>14. 微观状态、宏观状态、等概率原理</h3><p>宏观状态由宏观变量描述；一个宏观状态通常对应大量微观状态。平衡条件下，在给定条件下可及微观状态取等概率。</p></article>
+<article class="card" data-level="3" data-key="固体 Dulong Petit Einstein Debye"><span class="tag">★★★ 概念</span><h3>15. 固体热容</h3><p>Dulong–Petit 定律给出高温极限约 3R；低温出现偏离，引出 Einstein / Debye 模型。</p></article>
+<article class="card" data-level="3" data-key="黑体 紫外灾难 Rayleigh Jeans"><span class="tag">★★★ 概念</span><h3>16. 黑体辐射与紫外灾难</h3><p>经典 Rayleigh–Jeans + 能量均分在高频端导致能量发散，即“紫外灾难”，说明经典理论在此处失效。</p></article>
+</div>
+</section>
+
+<section id="公式链">
+<div class="sectionTitle"><h2>二、必须会串起来的公式链</h2><span class="pill">考试不要孤立背公式</span></div>
+<div class="chain">
+<div class="node">等概率原理<br>↓</div><div class="node">微观状态数 Ω<br>↓</div><div class="node">最概然分布<br>↓</div><div class="node">Boltzmann / Maxwell</div>
+</div>
+<div class="chain" style="margin-top:8px">
+<div class="node">Maxwell<br>速率分布</div><div class="node">⟨v²⟩</div><div class="node">⟨Eₖ⟩=3/2 kBT</div><div class="node">U → Cᵥ → Cₚ</div>
+</div>
+<details open><summary>拉格朗日乘数：考试时怎么识别？</summary><p>只要题目出现“在若干约束条件下，让某个量最大/最小”，就先写目标函数，再把每个约束乘一个待定乘子加入。热学中最典型的是在 Σaₗ=N、ΣaₗEₗ=E 下最大化 lnΩ。</p></details>
+<details><summary>Maxwell 三种速度：为什么顺序是 vp &lt; v̄ &lt; vrms？</summary><p>它们对应三个不同统计量：峰值位置、速度平均值、平方平均再开方。平方会更强调高速粒子，因此 vrms 最大。</p></details>
+</section>
+
+<section id="题型">
+<div class="sectionTitle"><h2>三、15 个母题：会一道，覆盖一类</h2><span class="pill">按考试解题思路组织</span></div>
+<div class="grid">
+<details><summary>01｜两状态理想气体</summary><p>写 pV=νRT；若气体物质的量不变，直接比较 pV/T。先找“不变量”，通常比逐项代数更快。</p></details>
+<details><summary>02｜van der Waals 临界点</summary><p>先写 p(V,T)，固定 T，对 V 连续求一、二阶导并同时置零，再联立求临界量。</p></details>
+<details><summary>03｜热学系数</summary><p>先读题目限定条件：定压→α，定容→β，等温→κ。不要把偏导变量看错。</p></details>
+<details><summary>04｜微观压强推导</summary><p>沿 x 方向考虑一次碰壁的动量变化，再乘碰撞频率；利用各向同性 ⟨vx²⟩=⟨v²⟩/3。</p></details>
+<details><summary>05｜随机游走</summary><p>把每一步看成独立随机变量。均值相加，方差也相加，因此位移尺度随 √N 增长。</p></details>
+<details><summary>06｜二项分布</summary><p>先判断“固定次数 + 每次成功概率固定 + 独立”三个条件；然后直接写二项式。</p></details>
+<details><summary>07｜二项 → 高斯</summary><p>N 大时用中心极限定性理解；若题目要求数值概率，再标准化 z=(n−Np)/√[Np(1−p)]。</p></details>
+<details><summary>08｜二项 → 泊松</summary><p>看到“大 N、小 p、平均次数 λ=Np 固定”，立刻换泊松，避免巨大组合数。</p></details>
+<details><summary>09｜微观/宏观状态</summary><p>先区分“一个宏观状态包含多少微观实现”。平衡时最重要的是寻找微观状态数最多的宏观分布。</p></details>
+<details><summary>10｜最概然分布</summary><p>写 Ω、取 lnΩ、Stirling 化简、加约束、求偏导、得到指数分布。每一步都有明确目的。</p></details>
+<details><summary>11｜Maxwell 分布</summary><p>若问“速率范围/最概然速率/平均速率/均方根速率”，不要混淆三者。</p></details>
+<details><summary>12｜三种特征速度</summary><p>先判断题目关键词：最概然→vp；平均→v̄；均方根→vrms。</p></details>
+<details><summary>13｜Boltzmann 分布</summary><p>先写 n∝e^(−U/kBT)，再把题目给的势能 U(r) 代入。重力场和谐振势是最典型变式。</p></details>
+<details><summary>14｜能量均分与热容</summary><p>数自由度 f，再用 U=(f/2)NkBT、Cv=(f/2)NkB；最后根据 Cₚ=Cᵥ+NkB 或摩尔形式 Cₚ,m=Cᵥ,m+R。</p></details>
+<details><summary>15｜综合链题</summary><p>从 Maxwell 得 ⟨v²⟩ → 平均动能 → U → Cᵥ。遇到综合题，把每一问看成同一条链上的下一步。</p></details>
+</div>
+</section>
+
+<section id="自测">
+<div class="sectionTitle"><h2>四、即时自测</h2><span class="pill">点选后立即反馈</span></div>
+<div id="quiz" class="card"></div><div id="score" class="score"></div>
+</section>
+
+<section id="清单">
+<div class="sectionTitle"><h2>五、考前清单</h2><span class="pill">勾选后自动保存于本页状态</span></div>
+<div class="checklist" id="checklist">
+<div class="check"><label><input type="checkbox" data-check="0"><span>能从 pV=νRT 处理两状态问题</span></label></div><div class="check"><label><input type="checkbox" data-check="1"><span>能完整推导 p=(1/3)nm⟨v²⟩</span></label></div><div class="check"><label><input type="checkbox" data-check="2"><span>理解微观状态/宏观状态/等概率原理</span></label></div><div class="check"><label><input type="checkbox" data-check="3"><span>会用 Stirling 公式化简 lnΩ</span></label></div><div class="check"><label><input type="checkbox" data-check="4"><span>会判断何时使用拉格朗日乘数</span></label></div><div class="check"><label><input type="checkbox" data-check="5"><span>能从约束推出 Boltzmann 形式</span></label></div><div class="check"><label><input type="checkbox" data-check="6"><span>能区分速度分布与速率分布</span></label></div><div class="check"><label><input type="checkbox" data-check="7"><span>记住 vp、v̄、vrms 三个公式及大小规律</span></label></div><div class="check"><label><input type="checkbox" data-check="8"><span>会处理二项→高斯、二项→泊松</span></label></div><div class="check"><label><input type="checkbox" data-check="9"><span>会用随机游走的均值与均方位移</span></label></div><div class="check"><label><input type="checkbox" data-check="10"><span>会识别 van der Waals 临界点条件</span></label></div><div class="check"><label><input type="checkbox" data-check="11"><span>会用 α、β、κ 的偏导定义</span></label></div><div class="check"><label><input type="checkbox" data-check="12"><span>会从自由度 f 求 U、Cv、Cp</span></label></div><div class="check"><label><input type="checkbox" data-check="13"><span>会处理混合气体热容</span></label></div><div class="check"><label><input type="checkbox" data-check="14"><span>知道紫外灾难说明经典理论的局限</span></label></div>
+</div>
+</section>
+</main>
+<footer>内容范围严格以当前《热学部分PPT》实际提供的 Chapter 1–2 为基础整理；后续章节若未出现在文件中，不在本页擅自补入。</footer>
+<script>
+(function(){
+const root=document.body, cards=[...document.querySelectorAll(".card[data-level]")], search=document.getElementById("search"), filters=[...document.querySelectorAll("#filters button")];
+let level="all";
+function apply(){const q=search.value.trim().toLowerCase();cards.forEach(c=>{const ok=(level==="all"||c.dataset.level===level)&&(!q||((c.dataset.key||"")+" "+c.innerText).toLowerCase().includes(q));c.classList.toggle("hidden",!ok)});}
+search.addEventListener("input",apply);filters.forEach(b=>b.addEventListener("click",()=>{filters.forEach(x=>x.classList.remove("active"));b.classList.add("active");level=b.dataset.level;apply();}));
+document.querySelectorAll(".navin button").forEach(b=>b.addEventListener("click",()=>document.getElementById(b.dataset.target).scrollIntoView({behavior:"smooth",block:"start"})));
+const questions=[
+["理想气体在物质的量不变时，若温度加倍、体积不变，压强如何变化？",["不变","加倍","减半","变为四倍"],1,"由 pV=νRT，在 ν、V 不变时 p∝T。"],
+["哪一种情形最适合使用拉格朗日乘数法？",["只计算一个积分","在多个守恒约束下寻找最大概率分布","查表求常数","单位换算"],1,"最概然分布正是“最大化目标 + 守恒约束”的典型问题。"],
+["同一温度下，三种特征速率的正确顺序是？",["vrms<v̄<vp","vp<v̄<vrms","v̄<vp<vrms","vp= v̄=vrms"],1,"平方加权使高速粒子影响更大，因此 vrms 最大。"],
+["二项分布趋于泊松分布需要哪组条件？",["N小、p大","N→∞、p→0且Np=λ固定","p=1","N=p"],1,"这是稀有事件极限。"],
+["单原子理想气体经典极限下的自由度 f 和摩尔定容热容为？",["f=2，Cv=R","f=3，Cv=3R/2","f=5，Cv=5R/2","f=6，Cv=3R"],1,"三平动自由度，每个贡献 1/2 R，因此 Cv,m=3R/2。"],
+["⟨x⟩=0 对随机游走意味着什么？",["每一步都回到原点","每条轨迹都对称","大量实现的平均位移为零","粒子没有运动"],2,"平均位移为零不意味着每条轨迹都回到原点。"]
+];
+let answered=0,correct=0;const quiz=document.getElementById("quiz"),score=document.getElementById("score");
+questions.forEach((q,qi)=>{const box=document.createElement("div");box.className="q";box.innerHTML="<b>"+(qi+1)+". "+q[0]+"</b>";q[1].forEach((opt,oi)=>{const btn=document.createElement("button");btn.type="button";btn.textContent=String.fromCharCode(65+oi)+" · "+opt;btn.addEventListener("click",()=>{if(box.dataset.done)return;box.dataset.done="1";answered++;if(oi===q[2]){btn.classList.add("correct");correct++}else{btn.classList.add("wrong");box.querySelectorAll("button")[q[2]].classList.add("correct")}const ex=document.createElement("div");ex.className="explain";ex.style.display="block";ex.textContent="解析："+q[3];box.appendChild(ex);score.textContent="已完成 "+answered+"/"+questions.length+" · 得分 "+correct+"/"+answered;updateProgress()});box.appendChild(btn)});quiz.appendChild(box)});
+function updateProgress(){const checks=[...document.querySelectorAll("[data-check]")];const done=checks.filter(x=>x.checked).length;const pct=Math.round((done+answered)/(checks.length+questions.length)*100);document.getElementById("progressBar").style.width=pct+"%";document.getElementById("progressText").textContent="复习进度 "+pct+"%";}
+document.querySelectorAll("[data-check]").forEach(c=>{c.checked=localStorage.getItem("thermal-check-"+c.dataset.check)==="1";c.addEventListener("change",()=>{localStorage.setItem("thermal-check-"+c.dataset.check,c.checked?"1":"0");updateProgress()})});updateProgress();
+})();
+</script>
+</body>
+</html>
