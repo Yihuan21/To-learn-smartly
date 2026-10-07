@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>热学课程精讲｜从MB分布到量子气体</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbe2ea;--accent:#2563eb;--accent2:#0f766e;--warn:#b45309;--soft:#eff6ff;--soft2:#ecfeff;--shadow:0 8px 28px rgba(15,23,42,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans CJK SC",sans-serif;line-height:1.75;font-size:17px}
+header{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:white;padding:42px 20px 34px}header .wrap,main{max-width:900px;margin:auto}.tag{display:inline-block;background:rgba(255,255,255,.14);padding:5px 10px;border-radius:999px;font-size:13px}h1{font-size:34px;line-height:1.25;margin:14px 0 10px}header p{margin:0;color:#dbeafe}.wrap{padding:0 4px}
+nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap}nav .inner{max-width:900px;margin:auto;padding:10px 12px}nav a{display:inline-block;text-decoration:none;color:#334155;padding:7px 10px;border-radius:9px;font-size:14px}nav a:hover{background:#eef2ff;color:var(--accent)}
+main{padding:22px 14px 70px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0;box-shadow:var(--shadow)}h2{font-size:27px;line-height:1.35;margin:0 0 12px}h3{font-size:21px;margin:22px 0 8px}h4{margin:18px 0 5px}.lead{font-size:19px}.key{border-left:4px solid var(--accent);background:var(--soft);padding:12px 15px;margin:14px 0;border-radius:0 12px 12px 0}.idea{border-left:4px solid var(--accent2);background:var(--soft2);padding:12px 15px;margin:14px 0;border-radius:0 12px 12px 0}.warn{border-left:4px solid var(--warn);background:#fff7ed;padding:12px 15px;margin:14px 0;border-radius:0 12px 12px 0}.formula{background:#0b1220;color:#f8fafc;border-radius:12px;padding:14px 16px;margin:13px 0;overflow:auto;font-family:"SF Mono",ui-monospace,monospace;font-size:16px}.small{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.pill{display:inline-block;padding:4px 9px;background:#eef2ff;color:#3730a3;border-radius:8px;font-size:13px;margin:2px}.check{background:#f8fafc;border:1px solid var(--line);padding:13px;border-radius:12px;margin:9px 0}.answer{display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px;margin-top:8px}.check button{border:0;background:#e2e8f0;border-radius:8px;padding:7px 10px;font-size:14px}.toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.toc a{text-decoration:none;color:var(--ink);padding:11px;background:#f8fafc;border:1px solid var(--line);border-radius:10px}.eq{font-family:"Times New Roman",serif}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:620px}th,td{border:1px solid var(--line);padding:9px;text-align:left}th{background:#f8fafc}footer{text-align:center;color:var(--muted);font-size:13px;padding:25px}
+@media(max-width:650px){body{font-size:16px}h1{font-size:29px}h2{font-size:24px}.grid,.toc{grid-template-columns:1fr}.card{padding:17px;border-radius:15px}.formula{font-size:14px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<span class="tag">热学课程精讲 · iPad版</span>
+<h1>从麦克斯韦—玻尔兹曼分布到量子气体</h1>
+<p>把课件中的公式串成一条可推导、可计算、可复习的逻辑链。</p>
+</div></header>
+<nav><div class="inner">
+<a href="#map">课程地图</a><a href="#entropy">熵</a><a href="#partition">配分函数</a><a href="#maxwell">MB→麦氏分布</a><a href="#boltzmann">玻尔兹曼分布</a><a href="#equip">能量均分</a><a href="#heat">热容</a><a href="#solid">固体</a><a href="#blackbody">黑体</a><a href="#quantum">量子气体</a><a href="#exam">考试框架</a>
+</div></nav>
+<main>
+<section class="card" id="map">
+<h2>0. 先看懂这节课到底在解决什么</h2>
+<p class="lead">这不是一堆互不相关的公式。课件实际上在回答一个问题：<strong>微观粒子怎样分布，为什么会产生我们测到的宏观热学量？</strong></p>
+<div class="key"><b>总主线：</b>微观状态概率 → 最大概然分布 → 速度/位置分布 → 平均能量 → 内能与热容 → 经典理论与实验矛盾 → 量子理论。</div>
+<div class="toc">
+<a href="#entropy">① 为什么平衡态对应最大熵？</a>
+<a href="#partition">② 配分函数为什么能“装下”热力学信息？</a>
+<a href="#maxwell">③ MB分布如何变成麦克斯韦速度分布？</a>
+<a href="#boltzmann">④ 有外场时为什么空间分布不均匀？</a>
+<a href="#equip">⑤ 为什么一个自由度平均是 kBT/2？</a>
+<a href="#heat">⑥ 自由度如何决定热容？</a>
+<a href="#solid">⑦ 固体热容为什么又需要量子？</a>
+<a href="#blackbody">⑧ 紫外灾难为什么暴露经典理论？</a>
+<a href="#quantum">⑨ 离散能级怎样改变分布？</a>
+</div>
+<h3>本课最值得记住的 6 个公式</h3>
+<div class="formula">S = k_B ln Ω</div>
+<div class="formula">P_i = exp(-βE_i) / Z，　Z = Σ_i exp(-βE_i)，　β = 1/(k_B T)</div>
+<div class="formula">f(v) ∝ v² exp[-mv²/(2k_B T)]</div>
+<div class="formula">n(r) ∝ exp[-φ(r)/(k_B T)]</div>
+<div class="formula">每个经典二次型自由度： ⟨E⟩ = ½ k_B T</div>
+<div class="formula">U = (f/2) N k_B T，　C_V = (f/2) nR（在自由度固定时）</div>
+</section>
+
+<section class="card" id="entropy">
+<h2>1. 熵：为什么平衡态是“最概然”的？</h2>
+<p>课件首先把热力学第二定律换成微观语言：在平衡态，系统的微观状态可以看作等概率；而宏观状态之所以稳定，是因为它对应的微观实现方式最多。</p>
+<h3>1.1 微观状态数 Ω 与熵</h3>
+<div class="formula">S = k_B ln Ω</div>
+<p>这里 Ω 是满足给定宏观条件的微观状态数。因为对数把“状态数的乘法”变成“熵的加法”，所以熵具有正确的可加性。</p>
+<div class="idea"><b>直觉：</b>不是“系统喜欢无序”，而是“对应于宏观平衡态的微观实现方式极多”。因此随机演化时，落在这些宏观状态的概率远大于落在少数特殊状态的概率。</div>
+<h3>1.2 为什么平衡态熵最大？</h3>
+<p>设宏观状态 A 对应 Ω_A 个微观态，状态 B 对应 Ω_B 个微观态。若 Ω_A ≫ Ω_B，那么随机选取一个微观态时，出现 A 的概率远大于 B：</p>
+<div class="formula">P(A) / P(B) = Ω_A / Ω_B</div>
+<p>所以大量粒子体系一旦离开平衡态，通常会自发走向微观状态数更多的区域，即熵增加。</p>
+<div class="key"><b>第二定律的微观图像：</b>从非最大概然分布走向最大概然分布；在这个自发过程中，熵增加。</div>
+<div class="warn"><b>考试陷阱：</b>“熵最大”不是说每个微观态的概率不一样。恰恰是在孤立平衡系统中，可能微观态等概率，而某个宏观分布之所以最可能，是因为它包含的微观态最多。</div>
+</section>
+
+<section class="card" id="partition">
+<h2>2. 配分函数：从微观概率直接得到宏观量</h2>
+<p>课件随后引入配分函数。它的核心意义不是“背一个 Z”，而是：<strong>Z 是所有允许微观能量状态的统计权重之和。</strong></p>
+<h3>2.1 从玻尔兹曼因子到概率</h3>
+<p>平衡态中，能量为 E_i 的状态权重正比于：</p>
+<div class="formula">w_i = e^{-βE_i}</div>
+<p>概率必须归一化，因此把所有状态的权重加起来：</p>
+<div class="formula">Z = Σ_i e^{-βE_i}</div>
+<p>于是：</p>
+<div class="formula">P_i = e^{-βE_i}/Z</div>
+<h3>2.2 为什么 β = 1/(kBT)？</h3>
+<p>β 必须把能量 E 变成无量纲指数。温度提供的能量尺度就是 k_B T，因此：</p>
+<div class="formula">β = 1/(k_B T)</div>
+<p>温度升高时 β 变小，高能态受到的指数惩罚减弱；温度降低时 β 变大，系统更集中在低能态。</p>
+<h3>2.3 Z 为什么这么重要？</h3>
+<p>课件给出平均能量与 Z 的关系：</p>
+<div class="formula">U = ⟨E⟩ = - ∂(ln Z)/∂β</div>
+<p>推导：</p>
+<div class="formula">ln Z 对 β 求导 = (1/Z) Σ_i (-E_i)e^{-βE_i}
+= - Σ_i E_i P_i = -⟨E⟩</div>
+<p>所以：</p>
+<div class="formula">⟨E⟩ = -∂lnZ/∂β</div>
+<div class="idea"><b>学习策略：</b>遇到“求平均能量、热容”等问题，可以先想“能不能求 Z”。Z 是统计力学里的总账本。</div>
+</section>
+
+<section class="card" id="maxwell">
+<h2>3. 从 MB 最大概然分布到麦克斯韦速度分布</h2>
+<p>这是本课最重要的推导之一。一定要分清三个对象：</p>
+<div class="grid">
+<div class="check"><b>速度空间分布</b><br>描述 v_x、v_y、v_z 怎么分布。</div>
+<div class="check"><b>速率分布</b><br>描述速率 v=|v| 怎么分布，注意会多出 v²。</div>
+</div>
+<h3>3.1 理想气体的单粒子能量</h3>
+<p>理想气体分子没有相互作用势能，因此：</p>
+<div class="formula">E = p²/(2m) = (p_x²+p_y²+p_z²)/(2m)</div>
+<p>玻尔兹曼因子：</p>
+<div class="formula">e^{-βE}
+= e^{-βp_x²/(2m)} e^{-βp_y²/(2m)} e^{-βp_z²/(2m)}</div>
+<p><b>关键：</b>三个方向完全因子化，所以三个动量分量彼此独立。这正是后来能量均分定理成立的基础之一。</p>
+<h3>3.2 为什么得到高斯分布？</h3>
+<p>对 p_x 而言，概率密度必须与：</p>
+<div class="formula">e^{-βp_x²/(2m)}</div>
+<p>成正比。归一化后利用高斯积分：</p>
+<div class="formula">∫_{-∞}^{∞} e^{-a x²} dx = √(π/a)</div>
+<p>得到单方向动量分布：</p>
+<div class="formula">f(p_x)=√[β/(2πm)] exp[-βp_x²/(2m)]</div>
+<p>速度满足 p_x=mv_x，因此：</p>
+<div class="formula">f(v_x)=√[m/(2πk_B T)] exp[-mv_x²/(2k_B T)]</div>
+<h3>3.3 从三维速度分布到速率分布：为什么出现 v²？</h3>
+<p>三维速度空间中，速率介于 v 和 v+dv 的所有速度点位于一个球壳中。球壳体积：</p>
+<div class="formula">dV_v = 4πv² dv</div>
+<p>而三维分布只依赖 v²，所以乘上球壳体积后：</p>
+<div class="formula">f(v)dv = 4π (m/(2πk_BT))^{3/2} v² exp[-mv²/(2k_BT)] dv</div>
+<div class="key"><b>考试最容易错的地方：</b>指数项来自能量；v² 来自三维球壳的几何简并。不要把 v² 当成“凭空多出来的”。</div>
+<h3>3.4 三个典型速度</h3>
+<table><tr><th>量</th><th>结果</th><th>怎么理解</th></tr>
+<tr><td>最概然速率 v_p</td><td>√(2k_BT/m)</td><td>使 f(v) 最大的速率</td></tr>
+<tr><td>平均速率 ⟨v⟩</td><td>√(8k_BT/(πm))</td><td>对 v 做加权平均</td></tr>
+<tr><td>均方根速率 v_rms</td><td>√(3k_BT/m)</td><td>由 ⟨v²⟩ 得到</td></tr>
+</table>
+<p>三者关系：</p><div class="formula">v_p &lt; ⟨v⟩ &lt; v_rms</div>
+</section>
+
+<section class="card" id="boltzmann">
+<h2>4. 玻尔兹曼密度分布：外场为什么让气体“不均匀”？</h2>
+<h3>4.1 重力场：先做最熟悉的例子</h3>
+<p>高度 z 处的重力势能：</p>
+<div class="formula">φ(z)=mgz</div>
+<p>等温条件下，气体满足理想气体方程 p=nk_BT。力学平衡要求：</p>
+<div class="formula">dp/dz = -nmg</div>
+<p>代入 p=nk_BT，并且 T 恒定：</p>
+<div class="formula">k_BT dn/dz = -nmg</div>
+<p>整理：</p>
+<div class="formula">dn/n = -(mg/(k_BT)) dz</div>
+<p>积分：</p>
+<div class="formula">ln n = -mgz/(k_BT)+constant</div>
+<p>所以：</p>
+<div class="formula">n(z)=n(0)e^{-mgz/(k_BT)}</div>
+<div class="idea"><b>物理图像：</b>越高势能越大，玻尔兹曼因子越小，因此粒子数密度随高度指数下降。</div>
+<h3>4.2 推广到任意势场</h3>
+<p>课件把重力场推广到一般外势 φ(r)。平衡时：</p>
+<div class="formula">∇p = -n∇φ</div>
+<p>等温理想气体满足 p=nk_BT，因此：</p>
+<div class="formula">k_BT∇n = -n∇φ</div>
+<p>于是：</p>
+<div class="formula">∇ln n = -(1/(k_BT))∇φ</div>
+<p>积分得到玻尔兹曼密度分布：</p>
+<div class="formula">n(r)=n_0 exp[-φ(r)/(k_BT)]</div>
+<div class="key"><b>一句话：</b>经典平衡系统中，位置能越高，粒子出现的统计权重越低，权重由 e^{-φ/kBT} 控制。</div>
+<h3>4.3 旋转系统为什么会出现类似现象？</h3>
+<p>课件以回转体、龙卷风、台风、离心机为例。旋转参考系中可以用有效势能描述离心效应，因此粒子空间分布仍可写成玻尔兹曼型指数。重点不是背具体例子，而是会把“势能 → 分布”这一模板迁移。</p>
+</section>
+
+<section class="card">
+<h2>5. 麦克斯韦—玻尔兹曼分布：速度和位置其实是同一个故事</h2>
+<p>课件明确区分：</p>
+<table><tr><th>分布</th><th>控制变量</th><th>权重</th></tr>
+<tr><td>麦克斯韦分布</td><td>动量/速度</td><td>e^{-E_k/(k_BT)}</td></tr>
+<tr><td>玻尔兹曼分布</td><td>位置</td><td>e^{-E_p/(k_BT)}</td></tr>
+</table>
+<p>如果粒子无相互作用，而且总能量可以写成：</p>
+<div class="formula">E = E_k + E_p</div>
+<p>那么：</p>
+<div class="formula">e^{-E/(k_BT)}
+= e^{-E_k/(k_BT)} e^{-E_p/(k_BT)}</div>
+<div class="key"><b>核心统一视角：</b>动能控制“速度怎么分”，势能控制“位置怎么分”；二者在无相互作用、可分离的情况下统计独立。</div>
+</section>
+
+<section class="card" id="equip">
+<h2>6. 能量均分定理：为什么一个自由度平均得到 ½kBT？</h2>
+<h3>6.1 什么叫自由度？</h3>
+<p>课件定义：决定物体位置和状态所需的独立坐标。对分子而言，可以分成平动、转动和振动自由度。</p>
+<table><tr><th>模型</th><th>典型自由度</th><th>课件强调</th></tr>
+<tr><td>单原子质点</td><td>3</td><td>3个平动</td></tr>
+<tr><td>刚性双原子</td><td>5</td><td>3平动+2转动</td></tr>
+<tr><td>非刚性双原子</td><td>7</td><td>再加入1个振动的两个能量项</td></tr>
+<tr><td>非线性三原子</td><td>9个构形自由度</td><td>3平动+3转动+3振动模式</td></tr>
+</table>
+<div class="warn">注意：振动模式不是简单地“一个自由度只贡献一次”。一个简谐振动包含动能和势能两个二次型，因此经典极限下一个完整振动模式平均贡献 k_BT。</div>
+<h3>6.2 平动自由度的详细推导</h3>
+<p>x方向平动能量：</p>
+<div class="formula">E_x = p_x²/(2m)</div>
+<p>其概率分布正比于 e^{-βp_x²/(2m)}。平均能量：</p>
+<div class="formula">⟨E_x⟩ = [∫(p_x²/2m)e^{-βp_x²/(2m)}dp_x] / [∫e^{-βp_x²/(2m)}dp_x]</div>
+<p>利用高斯积分的结果，可以得到：</p>
+<div class="formula">⟨p_x²⟩ = m/β = mk_BT</div>
+<p>因此：</p>
+<div class="formula">⟨E_x⟩ = ⟨p_x²⟩/(2m) = ½k_BT</div>
+<p>y、z方向完全相同，所以：</p>
+<div class="formula">⟨E_trans⟩ = 3/2 k_BT</div>
+<h3>6.3 转动自由度</h3>
+<p>转动动能形式也是二次型：</p>
+<div class="formula">E_rot = L²/(2I)</div>
+<p>在经典统计极限下，每个独立的转动二次型同样贡献：</p>
+<div class="formula">½k_BT</div>
+<p>因此刚性双原子分子的两个转动自由度贡献 k_BT。</p>
+<h3>6.4 振动自由度：为什么是 kBT 而不是 ½kBT？</h3>
+<p>简谐振动：</p>
+<div class="formula">E_vib = p²/(2m_eff) + ½kx²</div>
+<p>这里有两个二次型：</p>
+<div class="formula">平均动能 = ½k_BT；　平均势能 = ½k_BT</div>
+<p>所以一个完整振动模式：</p>
+<div class="formula">⟨E_vib⟩ = k_BT</div>
+<div class="key"><b>统一记忆：</b>“一个独立二次型 → ½kBT”。振动有动能二次型+势能二次型，所以一个振动模式 → kBT。</div>
+</section>
+
+<section class="card" id="heat">
+<h2>7. 从自由度直接算理想气体内能和热容</h2>
+<h3>7.1 内能</h3>
+<p>课件把准理想气体理解为只有粒子热运动动能、忽略粒子间相互作用势能。若每个分子有效贡献 f 个二次型自由度：</p>
+<div class="formula">U = (f/2)Nk_BT = (f/2)nRT</div>
+<h3>7.2 定容热容</h3>
+<p>定义：</p>
+<div class="formula">C_V = (∂U/∂T)_V</div>
+<p>若 f 在该温度范围内不变：</p>
+<div class="formula">C_V = (f/2)nR</div>
+<p>摩尔定容热容：</p>
+<div class="formula">C_{V,m} = (f/2)R</div>
+<h3>7.3 典型结果</h3>
+<table><tr><th>气体模型</th><th>f（有效二次型）</th><th>C<sub>V,m</sub></th></tr>
+<tr><td>单原子理想气体</td><td>3</td><td>3R/2</td></tr>
+<tr><td>刚性双原子</td><td>5</td><td>5R/2</td></tr>
+<tr><td>双原子振动充分激发</td><td>7</td><td>7R/2</td></tr>
+</table>
+<h3>7.4 混合气体：不要直接平均摩尔热容</h3>
+<p>若两种气体质量分别为 M_1、M_2，摩尔质量为 μ_1、μ_2，则摩尔数：</p>
+<div class="formula">n_1=M_1/μ_1，　n_2=M_2/μ_2</div>
+<p>总定容热容是各组分热容之和：</p>
+<div class="formula">C_V,total = n_1 C_{V,m,1} + n_2 C_{V,m,2}</div>
+<p>混合物摩尔热容：</p>
+<div class="formula">C̄_{V,m} = C_V,total/(n_1+n_2)</div>
+<div class="warn"><b>易错：</b>不能简单做 (C_1+C_2)/2，除非两种气体的物质的量恰好相同。</div>
+<h3>7.5 为什么实验告诉我们经典理论“不完整”？</h3>
+<p>课件指出：经典理论在固定自由度模型下预测热容与温度无关，但实验显示热容随温度变化。随着温度升高，自由度逐渐被激发：低温主要平动，常温开始出现转动，高温振动逐渐参与。</p>
+<div class="key"><b>历史转折：</b>经典统计认为能量连续，所以自由度应随时均分；实验却显示某些自由度在低温“沉默”。这要求引入量子理论中的离散能级。</div>
+</section>
+
+<section class="card" id="solid">
+<h2>8. 固体热容：杜隆—珀替定律与经典极限</h2>
+<p>固体中原子被束缚在晶格附近，没有自由平动和整体转动，主要表现为晶格振动。</p>
+<p>每个原子可近似看作三个方向的简谐振子。每个方向有动能和势能两个二次型：</p>
+<div class="formula">每个方向平均能量 = k_BT</div>
+<p>三个方向：</p>
+<div class="formula">⟨E⟩ = 3k_BT</div>
+<p>因此一摩尔固体在经典高温极限：</p>
+<div class="formula">C_{V,m} ≈ 3R</div>
+<p>这就是杜隆—珀替定律的核心结果。课件指出，室温下很多固体符合得不错，但很硬的固体如金刚石偏离明显，于是需要 Einstein 单模模型和 Debye 多模模型来处理量子化振动。</p>
+</section>
+
+<section class="card" id="blackbody">
+<h2>9. 黑体辐射与“紫外灾难”：经典统计在哪里崩了？</h2>
+<p>课件把辐射场看成许多单色平面波的叠加，并统计不同频率的电磁场自由度。</p>
+<h3>9.1 经典思路</h3>
+<p>每个自由度按能量均分得到：</p>
+<div class="formula">平均能量 ∼ k_BT</div>
+<p>而频率越高，可容纳的电磁模式数越多。瑞利—金斯理论因此预测高频端能量密度随频率快速增加。</p>
+<h3>9.2 矛盾</h3>
+<p>实验并没有看到高频能量无限增加。经典理论预测在紫外区域发散，这就是著名的<strong>紫外灾难</strong>。</p>
+<div class="idea"><b>与前面的气体热容问题是同一种危机：</b>经典“连续能量+均分”在高频/低温等情况下给出了与实验不符的结果。</div>
+<p>解决方向是量子化：振动模式不能任意吸收任意小的能量，而必须按离散能量量子交换。</p>
+</section>
+
+<section class="card" id="quantum">
+<h2>10. 量子气体简介：离散能级、全同性、自旋、不确定性</h2>
+<h3>10.1 离散能级</h3>
+<p>课件用“楼房”类比：系统是楼房，楼层是能级，每层房间是量子态，每层房间数是简并度。</p>
+<div class="formula">E_1,E_2,E_3,... 是离散的；某能级可能包含 g_i 个量子态。</div>
+<p>因此经典连续积分，在离散能级问题中往往变成对能级的求和。</p>
+<h3>10.2 全同性</h3>
+<p>量子粒子可能不能像经典粒子那样通过“给粒子编号”来区分。相同粒子的交换不会产生新的物理状态。</p>
+<table><tr><th>粒子</th><th>交换性质</th><th>核心规则</th></tr>
+<tr><td>玻色子</td><td>波函数交换对称</td><td>不受泡利不相容原理限制</td></tr>
+<tr><td>费米子</td><td>波函数交换反对称</td><td>服从泡利不相容原理</td></tr>
+</table>
+<h3>10.3 自旋</h3>
+<p>课件强调自旋是粒子的内禀性质，不能简单理解成“小球绕自身旋转”。自旋量子数为整数时对应玻色子，半整数时对应费米子。</p>
+<h3>10.4 海森堡不确定性原理</h3>
+<div class="formula">Δx Δp ≥ ħ/2</div>
+<p>其核心不是“仪器不够精密”，而是量子态本身不能同时具有任意精确的位置和动量。</p>
+<h3>10.5 离散能级下为什么仍然得到 MB 形式？</h3>
+<p>课件最后从碰撞过程的细致平衡出发。热平衡要求某个能级“撞入”的宏观概率等于“撞出”的概率，同时碰撞满足能量守恒。由这两个守恒条件构造线性关系，可以得到：</p>
+<div class="formula">ln(n_i/g_i) = α - βE_i</div>
+<p>指数化：</p>
+<div class="formula">n_i = g_i e^{α-βE_i}</div>
+<p>归一化后：</p>
+<div class="formula">P_i = [g_i e^{-βE_i}] / Σ_j[g_j e^{-βE_j}]</div>
+<div class="key"><b>注意简并度：</b>课件中的“房间数” g_i 会进入统计权重。能级高低决定玻尔兹曼因子，而同一能级有多少个量子态决定简并度。</div>
+<h3>10.6 为什么量子气体会破坏经典能量均分？</h3>
+<p>课件最后一句非常重要：自由度均分定理要求各自由度之间的能量能够自由转换；而量子气体中能量转移存在最小阶梯。若 k_BT 小于相邻能级间隔，某些自由度就难以被激发，于是经典均分失效。</p>
+</section>
+
+<section class="card" id="derivation">
+<h2>11. 一套通吃题型的推导模板</h2>
+<h3>模板 A：看到“平衡态分布”</h3>
+<div class="formula">① 写 E → ② 写 e^{-βE} → ③ 判断连续还是离散 → ④ 归一化 → ⑤ 求平均量</div>
+<p>连续变量用积分，离散能级用求和。</p>
+<h3>模板 B：看到“理想气体速度分布”</h3>
+<div class="formula">E=p²/(2m) → e^{-βp²/(2m)} → 三维因子化 → 球坐标换元 → d³v=4πv²dv</div>
+<h3>模板 C：看到“外场中的空间分布”</h3>
+<div class="formula">φ(r) → n(r)∝e^{-φ(r)/(kBT)}</div>
+<p>若需要归一化，再用总粒子数条件确定常数。</p>
+<h3>模板 D：看到“热容”</h3>
+<div class="formula">数自由度 → 每个二次型贡献 ½kBT → 得 U → 对 T 求导得 C_V</div>
+<h3>模板 E：看到“实验与经典理论矛盾”</h3>
+<p>优先想到两个关键词：<strong>自由度激发 + 能级量子化</strong>。课件中的气体热容、固体热容、黑体辐射都指向这个转折。</p>
+</section>
+
+<section class="card" id="exam">
+<h2>12. 考试重点：按优先级复习</h2>
+<div class="grid">
+<div><span class="pill">★★★★★</span><h3>MB → 麦克斯韦速度分布</h3><p>会从 e^{-βE} 推到三维速度分布，并解释 v² 的来源。</p></div>
+<div><span class="pill">★★★★★</span><h3>能量均分定理</h3><p>会证明 ½kBT，并判断平动、转动、振动各贡献多少。</p></div>
+<div><span class="pill">★★★★★</span><h3>玻尔兹曼密度分布</h3><p>会从力学平衡推导重力场和一般势场分布。</p></div>
+<div><span class="pill">★★★★★</span><h3>内能与热容</h3><p>能根据自由度写 U、C_V，并处理混合气体。</p></div>
+<div><span class="pill">★★★★☆</span><h3>配分函数</h3><p>理解 Z、P_i、⟨E⟩ 的关系，会用 -∂lnZ/∂β。</p></div>
+<div><span class="pill">★★★★☆</span><h3>经典理论失效</h3><p>解释热容温度依赖、固体低温偏离、紫外灾难。</p></div>
+<div><span class="pill">★★★☆☆</span><h3>量子气体基础</h3><p>能级、简并度、玻色子/费米子、自旋、不确定性。</p></div>
+<div><span class="pill">★★★☆☆</span><h3>细致平衡</h3><p>理解“正逆过程概率相等”如何导向 MB 形式。</p></div>
+</div>
+<h3>自测：不看答案先做</h3>
+<div class="check"><b>1.</b> 为什么麦克斯韦速率分布中有 v²？<br><button onclick="show(1)">显示答案</button><div id="a1" class="answer">因为速率为 v 的速度矢量位于半径 v 的球壳上，球壳体积与 v²dv 成正比。</div></div>
+<div class="check"><b>2.</b> 一个经典简谐振动模式为什么平均能量是 kBT？<br><button onclick="show(2)">显示答案</button><div id="a2" class="answer">动能和势能各是一个二次型，各贡献 ½kBT，所以总能量为 kBT。</div></div>
+<div class="check"><b>3.</b> 重力场中为什么 n(z) 随高度指数下降？<br><button onclick="show(3)">显示答案</button><div id="a3" class="answer">因为势能 φ=mgz，玻尔兹曼权重为 e^{-φ/(kBT)}，所以 n(z)=n(0)e^{-mgz/(kBT)}。</div></div>
+<div class="check"><b>4.</b> 为什么经典理论预测热容不随温度变化，而实验会变化？<br><button onclick="show(4)">显示答案</button><div id="a4" class="answer">经典均分假设所有自由度都能连续交换能量；量子理论中能级离散，低温时某些自由度无法有效激发，因此有效自由度随温度变化。</div></div>
+<div class="check"><b>5.</b> 为什么“熵最大”与“微观态等概率”不矛盾？<br><button onclick="show(5)">显示答案</button><div id="a5" class="answer">微观态等概率；宏观态的概率还要乘以该宏观态包含的微观态数 Ω。因此 Ω 最大的宏观分布最概然，S=kB lnΩ 最大。</div></div>
+</section>
+
+<section class="card">
+<h2>13. 最后一张“脑内地图”</h2>
+<div class="formula">微观状态
+ ↓
+玻尔兹曼权重 e^{-βE}
+ ↓
+最大概然分布 / 配分函数 Z
+ ↓
+动能部分 → 麦克斯韦速度分布
+势能部分 → 玻尔兹曼空间分布
+ ↓
+对能量求平均
+ ↓
+能量均分：每个二次型 ½kBT
+ ↓
+U → C_V
+ ↓
+实验发现自由度随温度激发
+ ↓
+经典理论失效
+ ↓
+量子化能级
+ ↓
+量子气体与新的统计规律</div>
+<div class="key"><b>如果只剩 30 秒复习：</b>记住“指数权重、v²几何因子、势能决定空间分布、二次型贡献½kBT、振动一个模式贡献kBT、热容反映可激发自由度、量子化解释经典失效”。</div>
+</section>
+
+<footer>内容依据所提供《热学0》课件整理；公式推导用于帮助理解课件主线。建议结合课堂符号体系和老师板书复习。</footer>
+</main>
+<script>
+function show(n){const e=document.getElementById('a'+n);e.style.display=e.style.display==='block'?'none':'block'}
+</script>
+</body>
+</html>
