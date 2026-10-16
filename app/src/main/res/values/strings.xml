@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><string name="app_name">HealthMate 健康管理</string></resources>
+<resources>
+    <string name="app_name">安心健康</string>
+    <string name="notification_channel_name">健康提醒</string>
+    <string name="notification_channel_description">用于显示用户设置的生活方式提醒</string>
+</resources>
